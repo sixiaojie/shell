@@ -1,16 +1,25 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  labels:
+    qcloud-app: test
+  name: test
+  namespace: default
 spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:1.7.9
-        ports:
-        - containerPort: 80
+  replicas: 1
+  selector:
+    matchLabels:
+      qcloud-app: test
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        qcloud-app: test
+    spec:
+      containers:
+      - args:
+        - sleep
+        - "100000"
+        image: centos:latest
+        imagePullPolicy: Always
+        name: test
